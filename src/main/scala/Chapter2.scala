@@ -36,8 +36,30 @@ object Chapter2{
   // EX2
   // 指定された比較関数にしたがってArray[A]がソートされているか確認する関数
   def isSorted[A](as: Array[A], ordered: (A,A) => Boolean): Boolean = {
+    @annotation.tailrec
     def loop(n : Int): Boolean =
       if(as.length < 2) true
-      else
+      else if (ordered(as(n), as(n + 1))) false
+      else loop(n + 1)
+    loop(0)
   }
+
+  // Ex3
+  // カリー化の練習
+  def curry[A,B,C](f: (A, B) => C): A => (B => C) =
+    a => b => f(a, b)
+
+  // EX4
+  // アンカリー
+  // これ何・・・・？
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C =
+    (a,b) => f(a)(b)
+
+  // EX5
+  // 合成関数
+  // これはできた
+  // Bの型として再生されたgの関数を引数としてfに代入するだけ
+  // 結果、そのままaだけ引数としてとれば良いと推理できた
+  def compose[A, B, C](f: B => C, g: A => B): A => C =
+    a => f(g(a))
 }
