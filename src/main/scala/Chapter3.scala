@@ -1,5 +1,7 @@
 import List.sum
 
+import scala.annotation.tailrec
+
 object Chapter3 {
   def match_action(): Int = {
     List(1,2,3,4,5) match {
@@ -57,4 +59,22 @@ object List {
       }
       case _ => as
     }
+
+  // Ex3.3
+  def setHead[A](head: A, as: List[A]): List[A] = as match {
+    case Nil => sys.error("error")
+    case Cons(_, t) => Cons(head, t)
+  }
+
+  // Ex3.4
+  // リストの先頭からn個だけ削除した結果を返す
+  @tailrec
+  def drop[A](l: List[A], n: Int): List[A] =
+    if (n <= 0) l
+    else l match {
+      case Nil => Nil
+      // dropを再帰的に呼び出してconsを何度も繰り返している
+      // 繰り返す回数はn回
+      case Cons(_,t) => drop(t, n-1)
+  }
 }
